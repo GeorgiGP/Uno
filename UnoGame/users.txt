@@ -1,3 +1,0 @@
-gosho 123
-g password
-username password
