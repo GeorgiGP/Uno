@@ -55,20 +55,21 @@ public class CommandsFactory {
 
     public static UnoCommand getCommand(@NotNull String command, @NotNull UnoGame game, @NotNull UnoPlayer player) {
         String[] commands = command.split(" ");
-        return switch (commands[0]) {
-            case "show-hand" -> new ShowHandCommand(game, player);
-            case "show-last-card" -> new ShowLastCard(game, player);
-            case "show-played-cards" -> new ShowPlayedCardsCommand(game, player);
-            case "draw" -> new DrawCardCommand(game, player);
-            case "accept-effect" -> new AcceptEffectCommand(game, player);
-            case "play" -> {
+        CommandOptions options = CommandOptions.fromString(commands[0]);
+        return switch (options) {
+            case SHOW_HAND -> new ShowHandCommand(game, player);
+            case SHOW_LAST_CARD -> new ShowLastCard(game, player);
+            case SHOW_PLAYED_CARDS -> new ShowPlayedCardsCommand(game, player);
+            case DRAW -> new DrawCardCommand(game, player);
+            case ACCEPT_EFFECT -> new AcceptEffectCommand(game, player);
+            case PLAY_NORMAL_CARD -> {
                 if (commands.length < COUNT_ARGUMENTS_PLAY) {
                     throw new IllegalArgumentException(
                             "Invalid number of arguments for play normal card, must be: " + COUNT_ARGUMENTS_PLAY);
                 }
                 yield new PlayNormalCardCommand(game, player, extractCardId(commands[1]));
             }
-            case "play-choose", "play-plus-four" -> {
+            case PLAY_WILD , PLAY_PLUS_FOUR -> {
                 if (commands.length < COUNT_ARGUMENTS_WILDCARD) {
                     throw new IllegalArgumentException(
                             "Invalid number of arguments for wildcard, must be:" + COUNT_ARGUMENTS_WILDCARD);
@@ -78,12 +79,12 @@ public class CommandsFactory {
                 if (color == Color.WILD) {
                     throw new IllegalArgumentException("Invalid color!");
                 }
-                yield commands[0].equals("play-choose") ? new ChooseColorCommand(game, player, cardId, color) :
+                yield options == CommandOptions.PLAY_WILD ? new ChooseColorCommand(game, player, cardId, color) :
                     new PlusFourCommand(game, player, cardId, color);
             }
-            case "leave" -> new LeaveCommand(game, player);
-            case "spectate" -> new SpectatingCommand(game, player);
-            default -> throw new IllegalStateException("Unexpected value: " + commands[0]);
+            case LEAVE -> new LeaveCommand(game, player);
+            case SPECTATE -> new SpectatingCommand(game, player);
+            case null -> throw new IllegalStateException("Unexpected value: " + commands[0]);
         };
     }
 }
