@@ -15,9 +15,12 @@ import uno.deck.card.Color;
 import uno.game.UnoGame;
 import uno.game.UnoPlayer;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
-import static uno.commands.factory.CommandsFactory.*;
+import static uno.commands.factory.CommandsFactory.extractCardId;
+import static uno.commands.factory.CommandsFactory.extractColor;
+import static uno.commands.factory.CommandsFactory.getCommand;
 
 public class CommandsFactoryTest {
     private final UnoPlayer player = mock();
