@@ -68,7 +68,7 @@ public class ClientRequestHandlerTest {
             doNothing().when(socket).close();
             clientRequestHandler.run();
 
-            assertNull(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientOut.toByteArray()))).readLine(),
+            assertEquals("Thank you for playing!", new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientOut.toByteArray()))).readLine(),
                     "After 'exit' command, nothing should be printed to the client output.");
         }
     }
@@ -91,7 +91,7 @@ public class ClientRequestHandlerTest {
                     "The successful login should return a greeting and confirmation message.");
             assertEquals("username logged out!", reader.readLine(),
                     "The successful logout should return a logout confirmation message.");
-            assertNull(reader.readLine(), "There should be no further output after logout.");
+            assertEquals("Thank you for playing!", reader.readLine(), "There should be no further output after logout.");
         }
     }
 
@@ -112,7 +112,7 @@ public class ClientRequestHandlerTest {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientOut.toByteArray())));
             assertEquals("When calling login command should have a username and a password", reader.readLine(),
                     "If login arguments are missing, it should print an error message indicating missing credentials.");
-            assertNull(reader.readLine(), "There should be no further output after the error message.");
+            assertEquals("Thank you for playing!", reader.readLine(), "There should be no further output after the error message.");
         }
     }
 
@@ -131,7 +131,7 @@ public class ClientRequestHandlerTest {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientOut.toByteArray())));
             assertEquals("Registration successful!", reader.readLine(),
                     "After a successful registration, a success message should be printed.");
-            assertNull(reader.readLine(), "There should be no further output after the success message.");
+            assertEquals("Thank you for playing!", reader.readLine(), "There should be no further output after the success message.");
         }
     }
 
@@ -151,7 +151,7 @@ public class ClientRequestHandlerTest {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientOut.toByteArray())));
             assertEquals("When calling register command should have a username and a password", reader.readLine(),
                     "If registration arguments are missing, it should print an error message indicating missing credentials.");
-            assertNull(reader.readLine(), "There should be no further output after the error message.");
+            assertEquals("Thank you for playing!", reader.readLine(), "There should be no further output after the error message.");
         }
     }
 
@@ -172,7 +172,7 @@ public class ClientRequestHandlerTest {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientOut.toByteArray())));
             assertEquals("Error Registration", reader.readLine(),
                     "The exception thrown during registration should print the correct error message.");
-            assertNull(reader.readLine(), "There should be no further output after the error message.");
+            assertEquals("Thank you for playing!", reader.readLine(), "There should be no further output after the error message.");
         }
     }
 }

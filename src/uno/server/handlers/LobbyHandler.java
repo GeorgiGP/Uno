@@ -35,15 +35,15 @@ public class LobbyHandler implements Handler {
             try {
                 String[] args = cur.split("\\s+");
                 String mode = args[0].toLowerCase();
-                switch (mode) {
-                    case "create-game" -> createGame(args);
-                    case "join" -> join(args);
-                    case "list-games" -> listGames(args);
-                    case "summary" -> summary(args);
-                    case "logout" -> {
+                switch (LobbyOptions.fromString(mode)) {
+                    case CREATE_GAME -> createGame(args);
+                    case JOIN_GAME -> join(args);
+                    case LIST_GAMES -> listGames(args);
+                    case SUMMARY_GAME -> summary(args);
+                    case LOGOUT -> {
                         return;
                     }
-                    default -> {
+                    case null, default -> {
                         out.println("Unknown command: " + cur);
                         out.println(help());
                     }

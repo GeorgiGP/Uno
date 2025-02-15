@@ -5,7 +5,7 @@ import uno.exceptions.hash.HashAlgorithmNotFound;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class SHA256ChecksumCalculator extends BaseChecksumCalculator {
+public class SHA256ChecksumCalculator extends ChecksumCalculator {
 
     @Override
     protected MessageDigest getHashAlgorithm() {

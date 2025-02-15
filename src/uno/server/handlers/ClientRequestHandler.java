@@ -14,6 +14,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import uno.server.PlayerDataBase;
 
+import static uno.server.handlers.SignOptions.REGISTER;
+import static uno.server.handlers.SignOptions.LOGIN;
+import static uno.server.handlers.SignOptions.EXIT;
+
 public class ClientRequestHandler implements Runnable, Handler {
     @NotNull
     private final Lobby lobby;
@@ -43,7 +47,7 @@ public class ClientRequestHandler implements Runnable, Handler {
         try (PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
             communicate(in, out);
-
+            out.println("Thank you for playing!");
         } catch (IOException | RuntimeException e) {
             System.out.println(e.getMessage() + " occurred by socket address: " + socket.getInetAddress());
         } finally {
@@ -59,22 +63,22 @@ public class ClientRequestHandler implements Runnable, Handler {
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
             String[] attributes = inputLine.split("\\s++");
-            String mode = attributes[0].toLowerCase();
+            SignOptions option =  SignOptions.fromString(attributes[0].toLowerCase());
             try {
-                if ("login".equals(mode)) {
+                if (LOGIN == option) {
                     if (attributes.length < COUNT_ATTRIBUTES_SIGN) {
                         out.println("When calling login command should have a username and a password");
                         continue;
                     }
                     login(in, out, attributes);
-                } else if ("register".equals(mode)) {
+                } else if (REGISTER == option) {
                     if (attributes.length < COUNT_ATTRIBUTES_SIGN) {
                         out.println("When calling register command should have a username and a password");
                         continue;
                     }
                     logger.register(extractBetween(attributes[1]), extractBetween(attributes[2]));
                     out.println("Registration successful!");
-                } else if ("exit".equals(mode)) {
+                } else if (EXIT == option) {
                     break;
                 } else {
                     out.println("Invalid command");
