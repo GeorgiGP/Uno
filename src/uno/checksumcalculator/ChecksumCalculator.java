@@ -1,6 +1,7 @@
 package uno.checksumcalculator;
 
 import org.jetbrains.annotations.NotNull;
+import uno.exceptions.hash.HashAlgorithmNotFound;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,7 +12,7 @@ import java.security.NoSuchAlgorithmException;
 public abstract class ChecksumCalculator {
     private static final int MAX_BUFFER_SIZE = 4096;
 
-    static ChecksumCalculator of(@NotNull String type) {
+    public static ChecksumCalculator of(@NotNull String type) {
         return switch (type.toLowerCase()) {
             case "md5" -> new MD5ChecksumCalculator();
             case "sha256" -> new SHA256ChecksumCalculator();
@@ -26,7 +27,7 @@ public abstract class ChecksumCalculator {
         } catch (IOException e) {
             throw new UncheckedIOException("Failed to get hash algorithm", e);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Failed to get hash algorithm", e);
+            throw new HashAlgorithmNotFound("Failed to get hash algorithm", e);
         }
     }
 

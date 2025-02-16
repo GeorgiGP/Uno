@@ -81,6 +81,7 @@ public class PlayerDataBaseImpl implements PlayerDataBase {
             throw new IllegalArgumentException("User name and password contains whitespaces or are blank");
         }
         playersInfoRegistries.put(userName, CALCULATOR.calculate(new ByteArrayInputStream(password.getBytes())));
+        save();
     }
 
     private boolean isRegistered(@NotNull String userName) {
