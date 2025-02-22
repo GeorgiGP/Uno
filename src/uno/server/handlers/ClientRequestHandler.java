@@ -62,7 +62,7 @@ public class ClientRequestHandler implements Runnable, Handler {
     private void communicate(@NotNull BufferedReader in, @NotNull PrintWriter out) throws IOException {
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            String[] attributes = inputLine.split("\\s++");
+            String[] attributes = inputLine.strip().split("\\s++");
             SignOptions option =  SignOptions.fromString(attributes[0].toLowerCase());
             try {
                 if (LOGIN == option) {

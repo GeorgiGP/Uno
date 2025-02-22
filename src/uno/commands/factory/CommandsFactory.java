@@ -54,7 +54,7 @@ public class CommandsFactory {
     }
 
     public static UnoCommand getCommand(@NotNull String command, @NotNull UnoGame game, @NotNull UnoPlayer player) {
-        String[] commands = command.split(" ");
+        String[] commands = command.strip().split("\\s++");
         CommandOptions options = CommandOptions.fromString(commands[0]);
         return switch (options) {
             case SHOW_HAND -> new ShowHandCommand(game, player);

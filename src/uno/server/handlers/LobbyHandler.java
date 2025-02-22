@@ -33,7 +33,7 @@ public class LobbyHandler implements Handler {
         String cur;
         while ((cur = in.readLine()) != null) {
             try {
-                String[] args = cur.split("\\s+");
+                String[] args = cur.strip().split("\\s+");
                 String mode = args[0].toLowerCase();
                 switch (LobbyOptions.fromString(mode)) {
                     case CREATE_GAME -> createGame(args);
