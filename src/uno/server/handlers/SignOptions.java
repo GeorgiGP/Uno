@@ -16,11 +16,22 @@ public enum SignOptions {
 
     public static SignOptions fromString(@NotNull String option) {
         for (SignOptions value : SignOptions.values()) {
-            if (value.option.equals(option)) {
+            if (value.option.equalsIgnoreCase(option)) {
                 return value;
             }
         }
         return null;
     }
 
+    @Override
+    public String toString() {
+        return option;
+    }
+
+    public static String help() {
+        return "Options: " + System.lineSeparator() +
+                "register --username=<username> --password=<password>" + System.lineSeparator() +
+                "login --username=<username> --password=<password>" + System.lineSeparator() +
+                "exit" + System.lineSeparator();
+    }
 }

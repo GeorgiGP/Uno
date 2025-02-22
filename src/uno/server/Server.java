@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import uno.server.handlers.ClientRequestHandler;
+import uno.server.time.TimeStampedPrintStream;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -90,7 +91,7 @@ public class Server {
             System.out.println("Failed to load accounts info: " + e.getMessage());
             return;
         }
-        try (PrintStream writer = new PrintStream(logFile, StandardCharsets.UTF_16)) {
+        try (PrintStream writer = new TimeStampedPrintStream(new PrintStream(logFile, StandardCharsets.UTF_16))) {
             System.setOut(writer);
             Thread.ofVirtual().start(server::start); //Every thread is virtual
             // 1) Millions of users, 2) When server stops, Clients disconnect at the moment

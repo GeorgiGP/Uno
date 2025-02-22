@@ -180,7 +180,6 @@ public class ClientRequestHandlerTest {
             BufferedReader reader = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(clientOut.toByteArray())));
             assertEquals("Error Registration", reader.readLine(),
                     "The exception thrown during registration should print the correct error message.");
-            assertEquals("Thank you for playing!", reader.readLine(), "There should be no further output after the error message.");
         }
     }
 }

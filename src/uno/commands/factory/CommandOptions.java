@@ -12,7 +12,8 @@ public enum CommandOptions {
     PLAY_WILD("play-choose"),
     PLAY_PLUS_FOUR("play-plus-four"),
     LEAVE("leave"),
-    SPECTATE("spectate");
+    SPECTATE("spectate"),
+    HELP("help");
 
     @NotNull
     private final String option;
@@ -23,10 +24,28 @@ public enum CommandOptions {
 
     public static CommandOptions fromString(@NotNull String option) {
         for (CommandOptions value : CommandOptions.values()) {
-            if (value.option.equals(option)) {
+            if (value.option.equalsIgnoreCase(option)) {
                 return value;
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return option;
+    }
+
+    public static String help() {
+        return "List of all commands: " + System.lineSeparator() +
+                "show-hand" + System.lineSeparator() +
+                "show-last-card" + System.lineSeparator() +
+                "show-played-cards" + System.lineSeparator() +
+                "draw" + System.lineSeparator() +
+                "accept-effect" + System.lineSeparator() +
+                "play --card-id=<card-id>" + System.lineSeparator() +
+                "play-choose --card-id=<card-id> --color=<red/green/blue/yellow>" + System.lineSeparator() +
+                "play-plus-four --card-id=<card-id> --color=<color>" + System.lineSeparator() +
+                "leave" + System.lineSeparator();
     }
 }

@@ -18,10 +18,24 @@ public enum LobbyOptions {
 
     public static LobbyOptions fromString(@NotNull String option) {
         for (LobbyOptions value : LobbyOptions.values()) {
-            if (value.option.equals(option)) {
+            if (value.option.equalsIgnoreCase(option)) {
                 return value;
             }
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return option;
+    }
+
+    public static String help() {
+        return "Options: " + System.lineSeparator() +
+                "create-game --game-id=<game-id> --number-of-players=<number>" + System.lineSeparator() +
+                "join --game-id=<game-id> --display-name=<display-name>" + System.lineSeparator() +
+                "list-games --status=<started/ended/available/all>" + System.lineSeparator() +
+                "summary --game-id=<game-id>" + System.lineSeparator() +
+                "logout" + System.lineSeparator();
     }
 }

@@ -45,14 +45,14 @@ public class LobbyHandler implements Handler {
                     }
                     case null, default -> {
                         out.println("Unknown command: " + cur);
-                        out.println(help());
+                        out.println(LobbyOptions.help());
                     }
                 }
             } catch (IOException e) {
                 throw e;
             } catch (Exception e) {
                 out.println(e.getMessage());
-                out.println(help());
+                out.println(LobbyOptions.help());
                 System.out.println(e.getMessage());
             }
         }
@@ -101,15 +101,6 @@ public class LobbyHandler implements Handler {
         UnoPlayer player = new UnoPlayer(out, in, displayName, registrationName);
         var game = lobby.joinGame(extractBetween(args[1]), player);
         new PreGame(player, game).introduceToGame();
-    }
-
-    private String help() {
-        return "Options: " + System.lineSeparator() +
-            "create-game --game-id=<game-id> --number-of-players=<number>" + System.lineSeparator() +
-            "join --game-id=<game-id> --display-name=<display-name>" + System.lineSeparator() +
-            "list-games --status=<started/ended/available/all>" + System.lineSeparator() +
-            "summary --game-id=<game-id>" + System.lineSeparator() +
-            "logout" + System.lineSeparator();
     }
 
     private String gamesInfo(@NotNull Map<@NotNull String, @NotNull UnoGame> games) {

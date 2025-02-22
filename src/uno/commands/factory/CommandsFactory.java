@@ -1,6 +1,7 @@
 package uno.commands.factory;
 
 import org.jetbrains.annotations.NotNull;
+import uno.commands.HelpCommand;
 import uno.deck.card.Color;
 import uno.game.UnoGame;
 import uno.game.UnoPlayer;
@@ -18,6 +19,8 @@ import uno.commands.ingamecommands.place.PlusFourCommand;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static uno.commands.factory.CommandOptions.HELP;
 
 public class CommandsFactory {
     private static final int COUNT_ARGUMENTS_WILDCARD = 3;
@@ -84,7 +87,9 @@ public class CommandsFactory {
             }
             case LEAVE -> new LeaveCommand(game, player);
             case SPECTATE -> new SpectatingCommand(game, player);
-            case null -> throw new IllegalStateException("Unexpected value: " + commands[0]);
+            case HELP -> new HelpCommand(game, player);
+            case null -> throw new IllegalStateException(
+                    "Unexpected value: " + commands[0] + ". Type + '" + HELP + "' for more information.");
         };
     }
 }
