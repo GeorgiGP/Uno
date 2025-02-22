@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import uno.lobby.LobbyImpl;
 
 import java.io.PrintStream;
+import java.io.UncheckedIOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -82,26 +83,31 @@ public class Server {
 
     public static void main(String[] args) {
         File logFile = new File(LOG_FILE_PATH.toString());
-        try (PrintStream writer = new PrintStream(logFile, StandardCharsets.UTF_16)) {
-            System.setOut(writer);
-
-            Server server = new Server();
-
-            new Thread(() -> {
-                Scanner scanner = new Scanner(System.in);
-                while (true) {
-                    String input = scanner.nextLine();
-                    if (input.equalsIgnoreCase("exit")) {
-                        break;
-                    }
-                }
-                server.stop();
-                System.exit(0);
-            }).start();
-            server.start();
-
+        Server server;
+        try {
+            server = new Server();
         } catch (IOException e) {
             System.out.println("Failed to load accounts info: " + e.getMessage());
+            return;
+        }
+        try (PrintStream writer = new PrintStream(logFile, StandardCharsets.UTF_16)) {
+            System.setOut(writer);
+            Thread.ofVirtual().start(server::start);
+
+            Scanner scanner = new Scanner(System.in);
+            while (true) {
+                String input = scanner.nextLine();
+                if (input.equalsIgnoreCase("exit")) {
+                    break;
+                }
+            }
+            server.stop();
+        } catch (IOException | UncheckedIOException e) {
+            try {
+                server.stop();
+            } finally {
+                System.out.println("Failed file operation: " + e.getMessage());
+            }
         }
 
     }
