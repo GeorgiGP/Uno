@@ -24,7 +24,6 @@ public class Server {
     public static final Path LOG_FILE_PATH = Path.of("exceptions.log");
 
     private static final int SERVER_PORT = 2525;
-    private static final int MAX_EXECUTOR_THREADS = 2000;
 
     @NotNull
     private final PlayerDataBase playersDataBase;
@@ -44,7 +43,7 @@ public class Server {
         Thread.currentThread().setName("Server Thread");
 
         try (ServerSocket serverSocket = new ServerSocket(SERVER_PORT);
-             ExecutorService executor = Executors.newFixedThreadPool(MAX_EXECUTOR_THREADS)) {
+             ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
             this.executor = executor;
             this.serverSocket = serverSocket;
 
