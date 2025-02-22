@@ -101,7 +101,7 @@ list-games --status=<started/ended/available/all>
 ### 5. Create a Game
 
 ```bash
-create-game --number-of-players=<number> --game-id=<game-id>
+create-game --game-id=<game-id> --number-of-players=<number>
 ```
 
 - Creates a new game with a unique `--game-id`.
