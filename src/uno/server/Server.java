@@ -94,7 +94,6 @@ public class Server {
             System.setOut(writer);
             Thread.ofVirtual().start(server::start); //Every thread is virtual
             // 1) Millions of users, 2) When server stops, Clients disconnect at the moment
-
             Scanner scanner = new Scanner(System.in);
             while (true) {
                 String input = scanner.nextLine();
