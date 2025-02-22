@@ -81,12 +81,10 @@ public class ClientRequestHandler implements Runnable, Handler {
                 } else if (EXIT == option) {
                     break;
                 } else {
-                    out.println("Invalid command: " + inputLine);
-                    out.println(SignOptions.help());
+                    out.println("Invalid command: " + inputLine + System.lineSeparator() + SignOptions.help());
                 }
             } catch (SignException | IllegalArgumentException e) {
-                out.println(e.getMessage());
-                out.println(SignOptions.help());
+                out.println(e.getMessage() + System.lineSeparator() + SignOptions.help());
                 System.out.println(e.getMessage());
             }
         }
