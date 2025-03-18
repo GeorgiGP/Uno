@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 
 public abstract class ChecksumCalculator {
     private static final int MAX_BUFFER_SIZE = 4096;

@@ -56,6 +56,13 @@ public class CommandsFactory {
         return Color.WILD;
     }
 
+    private static void validateArgsCount(String[] commands, int countArguments) {
+        if (commands.length < countArguments) {
+            throw new IllegalArgumentException(
+                    "Invalid number of arguments, must be: " + countArguments);
+        }
+    }
+
     public static UnoCommand getCommand(@NotNull String command, @NotNull UnoGame game, @NotNull UnoPlayer player) {
         String[] commands = command.strip().split("\\s++");
         CommandOptions options = CommandOptions.fromString(commands[0]);
@@ -66,24 +73,18 @@ public class CommandsFactory {
             case DRAW -> new DrawCardCommand(game, player);
             case ACCEPT_EFFECT -> new AcceptEffectCommand(game, player);
             case PLAY_NORMAL_CARD -> {
-                if (commands.length < COUNT_ARGUMENTS_PLAY) {
-                    throw new IllegalArgumentException(
-                            "Invalid number of arguments for play normal card, must be: " + COUNT_ARGUMENTS_PLAY);
-                }
+                validateArgsCount(commands, COUNT_ARGUMENTS_PLAY);
                 yield new PlayNormalCardCommand(game, player, extractCardId(commands[1]));
             }
-            case PLAY_WILD , PLAY_PLUS_FOUR -> {
-                if (commands.length < COUNT_ARGUMENTS_WILDCARD) {
-                    throw new IllegalArgumentException(
-                            "Invalid number of arguments for wildcard, must be:" + COUNT_ARGUMENTS_WILDCARD);
-                }
+            case PLAY_WILD, PLAY_PLUS_FOUR -> {
+                validateArgsCount(commands, COUNT_ARGUMENTS_WILDCARD);
                 int cardId = extractCardId(commands[1]);
                 Color color = extractColor(commands[2]);
                 if (color == Color.WILD) {
                     throw new IllegalArgumentException("Invalid color!");
                 }
                 yield options == CommandOptions.PLAY_WILD ? new ChooseColorCommand(game, player, cardId, color) :
-                    new PlusFourCommand(game, player, cardId, color);
+                        new PlusFourCommand(game, player, cardId, color);
             }
             case LEAVE -> new LeaveCommand(game, player);
             case SPECTATE -> new SpectatingCommand(game, player);
